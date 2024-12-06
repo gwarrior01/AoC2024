@@ -29,7 +29,7 @@ public class Main {
 
     private static int findUniquePosCount(char[][] grid, int startX, int startY) {
         var direction = Direction.UP;
-        int uniquePos = 0;
+        int uniquePosCount = 0;
         int x = startX, y = startY;
         while (inBound(grid, x, y)) {
             if (isObstacle(grid, x, y)) {
@@ -39,14 +39,18 @@ public class Main {
                 // change direction
                 direction = direction.turnRight();
             }
-            if (grid[x][y] != 'X') {
-                uniquePos++;
+            if (isNewPos(grid, x, y)) {
+                uniquePosCount++;
             }
             grid[x][y] = 'X';
             x += direction.x;
             y += direction.y;
         }
-        return uniquePos;
+        return uniquePosCount;
+    }
+
+    private static boolean isNewPos(char[][] grid, int x, int y) {
+        return grid[x][y] != 'X';
     }
 
     private static int findLoopsCount(char[][] grid, int startX, int startY) {
