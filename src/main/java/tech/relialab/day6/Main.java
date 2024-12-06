@@ -37,7 +37,7 @@ public class Main {
                 x = x + direction.stepBackX;
                 y = y + direction.stepBackY;
                 // change direction
-                direction = changeDirection(direction);
+                direction = direction.turnRight();
             }
             if (grid[x][y] != 'X') {
                 uniquePos++;
@@ -90,7 +90,7 @@ public class Main {
                 x = x + direction.stepBackX;
                 y = y + direction.stepBackY;
                 // change direction
-                direction = changeDirection(direction);
+                direction = direction.turnRight();
             }
             x += direction.x;
             y += direction.y;
@@ -106,19 +106,10 @@ public class Main {
         return grid[x][y] == '#';
     }
 
-    private static Direction changeDirection(Direction current) {
-        return switch (current) {
-            case UP -> Direction.RIGHT;
-            case DOWN -> Direction.LEFT;
-            case LEFT -> Direction.UP;
-            case RIGHT -> Direction.DOWN;
-        };
-    }
-
     enum Direction {
         UP(-1,0, 1, 0),
-        DOWN(1,0, -1, 0),
         RIGHT(0,1, 0, -1),
+        DOWN(1,0, -1, 0),
         LEFT(0, -1, 0, 1);
 
         final int x, y, stepBackX, stepBackY;
@@ -128,6 +119,10 @@ public class Main {
             this.y = y;
             this.stepBackX = stepBackX;
             this.stepBackY = stepBackY;
+        }
+
+        Direction turnRight() {
+            return values()[(this.ordinal() + 1) % values().length];
         }
     }
 }
