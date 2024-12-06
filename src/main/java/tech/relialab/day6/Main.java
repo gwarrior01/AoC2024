@@ -21,25 +21,21 @@ public class Main {
                 grid[i][j] = curr.charAt(j);
             }
         }
-        var uniquePath = calculateUniquePath(grid, startX, startY);
-        System.out.println("[1] unique path count = " + uniquePath);
+        var uniquePosCount = findUniquePosCount(grid, startX, startY);
+        System.out.println("[1] unique pos count = " + uniquePosCount);
         var loopsCount = findLoopsCount(grid, startX, startY);
         System.out.println("[2] loops count = " + loopsCount);
     }
 
-    private static int calculateUniquePath(char[][] grid, int startX, int startY) {
+    private static int findUniquePosCount(char[][] grid, int startX, int startY) {
         var direction = Direction.UP;
         int uniquePos = 0;
         int x = startX, y = startY;
         while (inBound(grid, x, y)) {
             if (isObstacle(grid, x, y)) {
                 // step back
-                switch (direction) {
-                    case UP -> x += 1;
-                    case DOWN -> x -= 1;
-                    case RIGHT -> y -= 1;
-                    case LEFT -> y += 1;
-                }
+                x = x + direction.stepBackX;
+                y = y + direction.stepBackY;
                 // change direction
                 direction = changeDirection(direction);
             }
@@ -47,12 +43,8 @@ public class Main {
                 uniquePos++;
             }
             grid[x][y] = 'X';
-            switch (direction) {
-                case UP -> x -= 1;
-                case DOWN -> x += 1;
-                case RIGHT -> y += 1;
-                case LEFT -> y -= 1;
-            }
+            x += direction.x;
+            y += direction.y;
         }
         return uniquePos;
     }
@@ -95,21 +87,13 @@ public class Main {
             seen.add(state);
             if (isObstacle(grid, x, y)) {
                 // step back
-                switch (direction) {
-                    case UP -> x += 1;
-                    case DOWN -> x -= 1;
-                    case RIGHT -> y -= 1;
-                    case LEFT -> y += 1;
-                }
+                x = x + direction.stepBackX;
+                y = y + direction.stepBackY;
                 // change direction
                 direction = changeDirection(direction);
             }
-            switch (direction) {
-                case UP -> x -= 1;
-                case DOWN -> x += 1;
-                case RIGHT -> y += 1;
-                case LEFT -> y -= 1;
-            }
+            x += direction.x;
+            y += direction.y;
         }
         return false;
     }
@@ -132,6 +116,18 @@ public class Main {
     }
 
     enum Direction {
-        UP, DOWN, RIGHT, LEFT
+        UP(-1,0, 1, 0),
+        DOWN(1,0, -1, 0),
+        RIGHT(0,1, 0, -1),
+        LEFT(0, -1, 0, 1);
+
+        final int x, y, stepBackX, stepBackY;
+
+        Direction(int x, int y, int stepBackX, int stepBackY) {
+            this.x = x;
+            this.y = y;
+            this.stepBackX = stepBackX;
+            this.stepBackY = stepBackY;
+        }
     }
 }
