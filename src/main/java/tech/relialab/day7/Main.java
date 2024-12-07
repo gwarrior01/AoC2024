@@ -35,7 +35,9 @@ public class Main {
         for (var equation : input) {
             var arr = equation.split(": ");
             var target = Long.parseLong(arr[0]);
-            var numbers = Arrays.stream(arr[1].split(" ")).mapToLong(Long::parseLong).toArray();
+            var numbers = Arrays.stream(arr[1].split(" "))
+                    .mapToLong(Long::parseLong)
+                    .toArray();
             res += isValidEquation(numbers, target, 0, numbers[0], List.of(add, multiply, concat)) ? target : 0L;
         }
         return res;
