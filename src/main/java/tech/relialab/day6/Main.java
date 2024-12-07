@@ -34,8 +34,8 @@ public class Main {
         while (inBound(grid, x, y)) {
             if (isObstacle(grid, x, y)) {
                 // step back
-                x = x + direction.stepBackX;
-                y = y + direction.stepBackY;
+                x += direction.stepBackX;
+                y += direction.stepBackY;
                 // change direction
                 direction = direction.turnRight();
             }
@@ -91,8 +91,8 @@ public class Main {
             seen.add(state);
             if (isObstacle(grid, x, y)) {
                 // step back
-                x = x + direction.stepBackX;
-                y = y + direction.stepBackY;
+                x += direction.stepBackX;
+                y +=  direction.stepBackY;
                 // change direction
                 direction = direction.turnRight();
             }
