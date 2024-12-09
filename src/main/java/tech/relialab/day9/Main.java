@@ -2,7 +2,7 @@ package tech.relialab.day9;
 
 import tech.relialab.Common;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -21,8 +21,8 @@ public class Main {
         fragmentDisk1(disk);
         // 00...111...2...333.44.5555.6666.777.888899
         // 0099811188827773336446555566..............
-        for (String s : disk) {
-            System.out.print(s);
+        for (var block : disk) {
+            System.out.print(block);
         }
         System.out.println();
         return countChecksum(disk);
@@ -34,37 +34,28 @@ public class Main {
         fragmentDisk2(disk);
         // 00...111...2...333.44.5555.6666.777.888899
         // 00992111777.44.333....5555.6666.....8888..
-        for (String s : disk) {
-            System.out.print(s);
+        for (var block : disk) {
+            System.out.print(block);
         }
         System.out.println();
         return countChecksum(disk);
     }
 
     private static String[] decodeDisk(String diskMap) {
-        // 2333133121414131402
-        // 00...111...2...333.44.5555.6666.777.888899
-        // 0099811188827773336446555566..............
-
-        // 6359213660505
-        var disk = new String[300_000];
-        int m = 0;
+        var disk = new ArrayList<String>();
         int fileId = 0;
         for (int i = 0; i < diskMap.length(); i++) {
             var isFile = i % 2 == 0;
             var freq = Character.getNumericValue(diskMap.charAt(i));
             for (int j = 0; j < freq; j++) {
-                if (isFile) {
-                    disk[m++] = String.valueOf(fileId);
-                } else {
-                    disk[m++] = EMPTY_SPACE;
-                }
+                var block = isFile ? String.valueOf(fileId) : EMPTY_SPACE;
+                disk.add(block);
             }
             if (isFile) {
                 fileId++;
             }
         }
-        return Arrays.copyOf(disk, m);
+        return disk.toArray(new String[0]);
     }
 
     private static void fragmentDisk1(String[] disk) {
@@ -89,14 +80,12 @@ public class Main {
         var checksum = 0L;
         for (int n = 0; n < disk.length; n++) {
             if (!disk[n].equals(EMPTY_SPACE)) {
-                checksum += Long.parseLong(String.valueOf(disk[n])) * n;
+                checksum += Long.parseLong(disk[n]) * n;
             }
         }
         return checksum;
     }
 
-    // 00...111...2...333.44.5555.6666.777.888899
-    // 00992111777.44.333....5555.6666.....8888..
     private static void fragmentDisk2(String[] disk) {
         int left = 0;
         int right = disk.length - 1;
