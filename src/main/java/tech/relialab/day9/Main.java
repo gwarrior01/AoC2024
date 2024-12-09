@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
 
-    public static final String EMPTY_SPACE = ".";
+    private static final String EMPTY_SPACE = ".";
 
     public static void main(String[] args) {
         var input = Common.getInput("/Users/great_warrior/IdeaProjects/AoC2024/src/main/resources/day9/input");
@@ -41,12 +41,12 @@ public class Main {
         return countChecksum(disk);
     }
 
-    private static String[] decodeDisk(String diskMap) {
+    private static String[] decodeDisk(String diskRules) {
         var disk = new ArrayList<String>();
         int fileId = 0;
-        for (int i = 0; i < diskMap.length(); i++) {
+        for (int i = 0; i < diskRules.length(); i++) {
             var isFile = i % 2 == 0;
-            var freq = Character.getNumericValue(diskMap.charAt(i));
+            var freq = Character.getNumericValue(diskRules.charAt(i));
             for (int j = 0; j < freq; j++) {
                 var block = isFile ? String.valueOf(fileId) : EMPTY_SPACE;
                 disk.add(block);
@@ -62,10 +62,10 @@ public class Main {
         int left = 0;
         int right = disk.length - 1;
         while (left < right) {
-            while (left < right && !disk[left].equals(".")) {
+            while (left < right && !disk[left].equals(EMPTY_SPACE)) {
                 left++;
             }
-            while (left < right && disk[right].equals(".")) {
+            while (left < right && disk[right].equals(EMPTY_SPACE)) {
                 right--;
             }
             var tmp = disk[left];
