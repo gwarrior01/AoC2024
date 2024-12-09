@@ -18,7 +18,7 @@ public class Main {
     private static long part1(List<String> input) {
         var decodeRules = input.getFirst();
         var disk  = decodeDisk(decodeRules);
-        fragmentDisk1(disk);
+        defragment1(disk);
         // 00...111...2...333.44.5555.6666.777.888899
         // 0099811188827773336446555566..............
         for (var block : disk) {
@@ -31,7 +31,7 @@ public class Main {
     private static long part2(List<String> input) {
         var decodeRules = input.getFirst();
         var disk  = decodeDisk(decodeRules);
-        fragmentDisk2(disk);
+        defragment2(disk);
         // 00...111...2...333.44.5555.6666.777.888899
         // 00992111777.44.333....5555.6666.....8888..
         for (var block : disk) {
@@ -58,7 +58,7 @@ public class Main {
         return disk.toArray(new String[0]);
     }
 
-    private static void fragmentDisk1(String[] disk) {
+    private static void defragment1(String[] disk) {
         int left = 0;
         int right = disk.length - 1;
         while (left < right) {
@@ -86,7 +86,7 @@ public class Main {
         return checksum;
     }
 
-    private static void fragmentDisk2(String[] disk) {
+    private static void defragment2(String[] disk) {
         int left = 0;
         int right = disk.length - 1;
         while (left < right) {
@@ -120,7 +120,7 @@ public class Main {
         return start == leftBound ? -1 : end - start + 1;
     }
 
-    private static int findEmptySpace(String[] disk, int leftBound, int rightBound, int needSpace) {
+    private static int findEmptySpace(String[] disk, int leftBound, int rightBound, int requiredSpace) {
         while (leftBound < rightBound) {
             while (leftBound < rightBound && !disk[leftBound].equals(EMPTY_SPACE)) {
                 leftBound++;
@@ -131,7 +131,7 @@ public class Main {
                 while (end < rightBound && disk[end].equals(disk[start])) {
                     end++;
                 }
-                if (end - start + 1 > needSpace) {
+                if (end - start + 1 > requiredSpace) {
                     return start;
                 }
                 leftBound = end + 1;
@@ -142,12 +142,12 @@ public class Main {
         return -1;
     }
 
-    private static void swap(String[] disk, int left, int right, int space) {
+    private static void swap(String[] disk, int left, int right, int blocksCount) {
         var fileId = disk[right];
-        while (space > 0) {
+        while (blocksCount > 0) {
             disk[left++] = fileId;
             disk[right--] = EMPTY_SPACE;
-            space--;
+            blocksCount--;
         }
     }
 }
