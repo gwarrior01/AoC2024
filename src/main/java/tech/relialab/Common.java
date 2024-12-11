@@ -50,4 +50,13 @@ public class Common {
             System.out.println(Arrays.toString(curr));
         }
     }
+
+    public static int[] getIntegerArray(String input) {
+        var arr = input.split(" ");
+        var integers = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            integers[i] = Integer.parseInt(arr[i]);
+        }
+        return integers;
+    }
 }
