@@ -30,7 +30,7 @@ public class Main {
                     int mid = stone.length() / 2;
                     var left = stone.substring(0, mid);
                     var right = stone.substring(mid).replaceFirst("^0+", "");
-                    currStoneToCount.merge(left.isEmpty() ? "0" : left, count, Long::sum);
+                    currStoneToCount.merge(left, count, Long::sum);
                     currStoneToCount.merge(right.isEmpty() ? "0" : right, count, Long::sum);
                 } else {
                     currStoneToCount.merge(String.valueOf(Long.parseLong(stone) * 2024), count, Long::sum);
