@@ -26,7 +26,22 @@ public class Common {
         return grid;
     }
 
-    public static boolean inBound(char[][] grid, int x, int y) {
+    public static int[][] getIntGrid(List<String> input) {
+        var grid = new int[input.size()][input.getFirst().length()];
+        for (int i = 0; i < input.size(); i++) {
+            var curr = input.get(i);
+            for (int j = 0; j < curr.length(); j++) {
+                grid[i][j] = Character.getNumericValue(curr.charAt(j));
+            }
+        }
+        return grid;
+    }
+
+    public static boolean inBoundCharGrid(char[][] grid, int x, int y) {
+        return x >= 0 && x < grid.length && y >= 0 && y < grid[x].length;
+    }
+
+    public static boolean inBoundIntGrid(int[][] grid, int x, int y) {
         return x >= 0 && x < grid.length && y >= 0 && y < grid[x].length;
     }
 

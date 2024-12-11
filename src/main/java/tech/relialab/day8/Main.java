@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import static tech.relialab.Common.inBound;
+import static tech.relialab.Common.inBoundCharGrid;
 
 public class Main {
 
@@ -33,7 +33,7 @@ public class Main {
                         var leftDy = y - antenna[1];
                         var leftX = x + leftDx;
                         var leftY = y + leftDy;
-                        if (inBound(grid, leftX, leftY)) {
+                        if (inBoundCharGrid(grid, leftX, leftY)) {
                             seen.add(leftX + "," + leftY);
                             if (grid[leftX][leftY] == '.') {
                                 grid[leftX][leftY] = '#';
@@ -44,7 +44,7 @@ public class Main {
                         var rightDy = antenna[1] - y;
                         var rightX = antenna[0] + rightDx;
                         var rightY = antenna[1] + rightDy;
-                        if (inBound(grid, rightX, rightY)) {
+                        if (inBoundCharGrid(grid, rightX, rightY)) {
                             seen.add(rightX + "," + rightY);
                             if (grid[rightX][rightY] == '.') {
                                 grid[rightX][rightY] = '#';
@@ -74,7 +74,7 @@ public class Main {
                         var leftDy = y - antenna[1];
                         var leftX = x + leftDx;
                         var leftY = y + leftDy;
-                        while (inBound(grid, leftX, leftY)) {
+                        while (inBoundCharGrid(grid, leftX, leftY)) {
                             seen.add(leftX + "," + leftY);
                             if (grid[leftX][leftY] == '.') {
                                 grid[leftX][leftY] = '#';
@@ -87,7 +87,7 @@ public class Main {
                         var rightDy = antenna[1] - y;
                         var rightX = antenna[0] + rightDx;
                         var rightY = antenna[1] + rightDy;
-                        while (inBound(grid, rightX, rightY)) {
+                        while (inBoundCharGrid(grid, rightX, rightY)) {
                             seen.add(rightX + "," + rightY);
                             if (grid[rightX][rightY] == '.') {
                                 grid[rightX][rightY] = '#';
