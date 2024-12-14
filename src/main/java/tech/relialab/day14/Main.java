@@ -2,7 +2,7 @@ package tech.relialab.day14;
 
 import tech.relialab.Common;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Main {
@@ -10,13 +10,14 @@ public class Main {
     public static void main(String[] args) {
         var input = Common.getInput("/Users/great_warrior/IdeaProjects/AoC2024/src/main/resources/day14/input");
         System.out.println("[1] safety factor: " + part1(input));
+        System.out.println("[2] christmas tree after: " + part2(input));
     }
 
     private static long part1(List<String> input) {
         var robots = input.stream()
                 .map(Main::parseRobot)
                 .toList();
-        int seconds = 8270;
+        int seconds = 100;
         int wide = 101;
         int tall = 103;
         var space = new int[tall][wide];
@@ -26,11 +27,36 @@ public class Main {
         return calculateSafetyFactor(space);
     }
 
+    private static long part2(List<String> input) {
+        var robots = input.stream()
+                .map(Main::parseRobot)
+                .toList();
+        int wide = 101;
+        int tall = 103;
+        int step = 0;
+        var isChristmasTree = false;
+
+        while (!isChristmasTree) {
+            step++;
+            isChristmasTree = true;
+            var points = new HashSet<Pos>();
+            for (var robot : robots) {
+                int x = (robot.initialX + step * (robot.velocityX + wide)) % wide;
+                int y = (robot.initialY + step * (robot.velocityY + tall)) % tall;
+                var pos = new Pos(x, y);
+                if (points.contains(pos)) {
+                    isChristmasTree = false;
+                    break;
+                }
+                points.add(pos);
+            }
+        }
+        return step;
+    }
+
     private static void moveRobot(Robot robot, int[][] space, int wide, int tall, int seconds) {
-        var newX = (robot.initialX + seconds * robot.velocityX) % wide;
-        var newY = (robot.initialY + seconds * robot.velocityY) % tall;
-        if (newX < 0) newX += wide;
-        if (newY < 0) newY += tall;
+        var newX = (robot.initialX + seconds * (robot.velocityX + wide)) % wide;
+        var newY = (robot.initialY + seconds * (robot.velocityY + tall)) % tall;
         space[newY][newX]++;
     }
 
@@ -74,5 +100,8 @@ public class Main {
             this.velocityX = velocityX;
             this.velocityY = velocityY;
         }
+    }
+
+    record Pos(int x, int y) {
     }
 }
