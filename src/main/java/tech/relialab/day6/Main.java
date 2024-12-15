@@ -110,13 +110,13 @@ public class Main {
         return grid[x][y] == '#';
     }
 
-    enum Direction {
+    public enum Direction {
         UP(-1,0, 1, 0),
         RIGHT(0,1, 0, -1),
         DOWN(1,0, -1, 0),
         LEFT(0, -1, 0, 1);
 
-        final int x, y, stepBackX, stepBackY;
+        public final int x, y, stepBackX, stepBackY;
 
         Direction(int x, int y, int stepBackX, int stepBackY) {
             this.x = x;
@@ -125,8 +125,27 @@ public class Main {
             this.stepBackY = stepBackY;
         }
 
-        Direction turnRight() {
+        public Direction turnRight() {
             return values()[(this.ordinal() + 1) % values().length];
+        }
+
+        public Direction getOppositeDirection() {
+            return switch (this) {
+                case DOWN -> UP;
+                case UP -> DOWN;
+                case LEFT -> RIGHT;
+                case RIGHT -> LEFT;
+            };
+        }
+
+        public static Direction getDirection(char direction) {
+            return switch (direction) {
+                case '^' -> UP;
+                case 'v' -> DOWN;
+                case '>' -> RIGHT;
+                case '<' -> LEFT;
+                default -> throw new IllegalArgumentException();
+            };
         }
     }
 }
