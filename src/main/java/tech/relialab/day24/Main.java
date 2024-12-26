@@ -12,14 +12,14 @@ public class Main {
 
     public static void main(String[] args) {
         var input = Common.getInput("/Users/great_warrior/IdeaProjects/AoC2024/src/main/resources/day24/input");
-        System.out.println("[1] = " + part1(input));
+        System.out.println("[1] digit = " + part1(input));
     }
 
     private static long part1(List<String> input) {
         var wires = input.stream()
                 .takeWhile(line -> !line.isEmpty())
                 .map(line -> line.split(": "))
-                .collect(Collectors.toMap( arr -> arr[0], arr -> arr[1].equals("1")));
+                .collect(Collectors.toMap(arr -> arr[0], arr -> arr[1].equals("1")));
 
         var gates = input.stream()
                 .dropWhile(line -> !line.contains("->"))
@@ -64,7 +64,7 @@ public class Main {
     }
 
     private static Gate createGate(String line) {
-        var arr =  line.split(" -> ");
+        var arr = line.split(" -> ");
         var out = arr[1];
         var command = arr[0].split(" ");
         var leftInWire = command[0];
@@ -79,5 +79,6 @@ public class Main {
         XOR
     }
 
-    record Gate(String outWire, String leftWire, String rightWire, Operand operand) {}
+    record Gate(String outWire, String leftWire, String rightWire, Operand operand) {
+    }
 }
