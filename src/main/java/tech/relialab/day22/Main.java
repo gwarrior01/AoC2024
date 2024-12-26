@@ -31,7 +31,7 @@ public class Main {
             var changes = new int[steps];
             var processed = new HashSet<Sequence>();
             for (int i = 0; i < steps; i++) {
-                var nextSecret = generateIteration(currSecret);
+                var nextSecret = secretIteration(currSecret);
                 long nextPrice = nextSecret % 10;
                 long currPrice = currSecret % 10;
                 changes[i] = (int) (nextPrice - currPrice);
@@ -51,12 +51,12 @@ public class Main {
     private static long generateSecret(long initial, int steps) {
         var secretNum = initial;
         for (int i = 0; i < steps; i++) {
-            secretNum = generateIteration(secretNum);
+            secretNum = secretIteration(secretNum);
         }
         return secretNum;
     }
 
-    private static long generateIteration(long secretNum) {
+    private static long secretIteration(long secretNum) {
         long res = secretNum;
         res = ((res << 6) ^ res) % 16777216;
         res = ((res >> 5) ^ res) % 16777216;
